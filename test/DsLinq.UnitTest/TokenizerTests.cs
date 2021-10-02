@@ -3,7 +3,7 @@ using Xunit;
 
 namespace DsLinq.UnitTest
 {
-    public class UnitTest1
+    public class TokenizerTests
     {
         [Fact]
         public void Test1()
