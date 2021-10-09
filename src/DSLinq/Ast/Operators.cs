@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DsLinq.Ast
 {
-    enum Operators
+    internal enum Operators
     {
         /// <summary>
         /// +
@@ -18,7 +18,7 @@ namespace DsLinq.Ast
         /// <summary>
         /// -
         /// </summary>
-        Substract,
+        Subtract,
         /// <summary>
         /// *
         /// </summary>
@@ -27,6 +27,57 @@ namespace DsLinq.Ast
         /// /
         /// </summary>
         Divide,
-
+        /// <summary>
+        /// =
+        /// </summary>
+        Equal,
+        /// <summary>
+        /// 
+        /// </summary>
+        NotEqual,
+        /// <summary>
+        /// 
+        /// </summary>
+        Modulo,
+        /// <summary>
+        /// 
+        /// </summary>
+        Power,
+        /// <summary>
+        /// 
+        /// </summary>
+        And,
+        /// <summary>
+        /// 
+        /// </summary>
+        Or,
+        /// <summary>
+        /// 
+        /// </summary>
+        LessThanOrEqual,
+        /// <summary>
+        /// 
+        /// </summary>
+        LessThan,
+        /// <summary>
+        /// 
+        /// </summary>
+        GreaterThan,
+        /// <summary>
+        /// 
+        /// </summary>
+        GreaterThanOrEqual,
+        /// <summary>
+        /// Negative value
+        /// </summary>
+        Negate,
+        /// <summary>
+        /// 
+        /// </summary>
+        Not,
+        /// <summary>
+        /// 
+        /// </summary>
+        Is,
     }
 }

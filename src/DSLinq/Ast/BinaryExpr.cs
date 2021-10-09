@@ -10,11 +10,17 @@ using System.Threading.Tasks;
 
 namespace DsLinq.Ast
 {
-    class ConstantExpr : DslExpression
+    class BinaryExpr : DslExpression
     {
-        public ConstantExpr(object obj)
-        {
+        public DslExpression Left { get; }
+        public DslExpression Right { get; }
+        public Operators Op { get; }
 
+        public BinaryExpr(Operators op, DslExpression left, DslExpression right)
+        {
+            Op = op;
+            Left = left;
+            Right = right;
         }
 
         public override Expression BuildLinqExpression()

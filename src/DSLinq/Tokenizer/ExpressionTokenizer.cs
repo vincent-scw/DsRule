@@ -4,11 +4,11 @@ using System.Collections.Generic;
 
 namespace DsLinq.Tokenizer
 {
-    class ExpressionTokenizer : Tokenizer<ExpressionToken>
+    internal class ExpressionTokenizer : Tokenizer<ExpressionToken>
     {
-        static readonly ExpressionToken[] SimpleOps = new ExpressionToken[128];
+        private readonly static ExpressionToken[] SimpleOps = new ExpressionToken[128];
 
-        static readonly HashSet<ExpressionToken> PreRegexTokens = new HashSet<ExpressionToken>
+        private readonly static HashSet<ExpressionToken> PreRegexTokens = new HashSet<ExpressionToken>
         {
             ExpressionToken.And,
             ExpressionToken.Or,
@@ -27,7 +27,7 @@ namespace DsLinq.Tokenizer
             ExpressionToken.Is
         };
 
-        static readonly ExpressionKeyword[] Keywords =
+        private readonly static ExpressionKeyword[] Keywords =
         {
             new ExpressionKeyword("and", ExpressionToken.And),
             new ExpressionKeyword("in", ExpressionToken.In),
@@ -95,7 +95,7 @@ namespace DsLinq.Tokenizer
                 }
                 else if (next.Value == '\'')
                 {
-                    var str = ExpressionTextParsers.SqlString(next.Location);
+                    var str = ExpressionTextParsers.ValueContent(next.Location);
                     if (!str.HasValue)
                         yield return Result.CastEmpty<string, ExpressionToken>(str);
 
@@ -175,14 +175,14 @@ namespace DsLinq.Tokenizer
             } while (next.HasValue);
         }
 
-        static bool IsDelimiter(Result<char> next)
+        private static bool IsDelimiter(Result<char> next)
         {
             return !next.HasValue ||
                    char.IsWhiteSpace(next.Value) ||
                    next.Value < SimpleOps.Length && SimpleOps[next.Value] != ExpressionToken.None;
         }
 
-        static bool TryGetKeyword(TextSpan span, out ExpressionToken keyword)
+        private static bool TryGetKeyword(TextSpan span, out ExpressionToken keyword)
         {
             foreach (var kw in Keywords)
             {

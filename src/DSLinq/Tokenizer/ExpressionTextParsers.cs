@@ -20,12 +20,12 @@ namespace DsLinq.Tokenizer
                     .AtLeastOnce())
                 .Select(chrs => new string(chrs));
 
-        public static TextParser<char> SqlStringContentChar =
+        public static TextParser<char> ValueContentChar =
             Span.EqualTo("''").Value('\'').Try().Or(Character.ExceptIn('\'', '\r', '\n'));
 
-        public static TextParser<string> SqlString =
+        public static TextParser<string> ValueContent =
             Character.EqualTo('\'')
-                .IgnoreThen(SqlStringContentChar.Many())
+                .IgnoreThen(ValueContentChar.Many())
                 .Then(s => Character.EqualTo('\'').Value(new string(s)));
 
         public static TextParser<char> RegularExpressionContentChar { get; } =
