@@ -1,2 +1,2 @@
-# DsLinq
-Parse DSL to Linq
+# DsRule
+Domain-specific Rule

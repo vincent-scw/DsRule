@@ -1,8 +1,8 @@
-using DsLinq.Tokenizer;
+using DsRule.Tokenizer;
 using System.Linq;
 using Xunit;
 
-namespace DsLinq.UnitTest
+namespace DsRule.UnitTest
 {
     public class TokenizerTests
     {

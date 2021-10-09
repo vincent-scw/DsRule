@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace DsLinq.Ast
+namespace DsRule.Ast
 {
     internal abstract class DslExpression
     {

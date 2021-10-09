@@ -7,9 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DsLinq
+namespace DsRule
 {
-    public static class DsLinqExecutor
+    public static class DsRuleExecutor
     {
         public static TOut Execute<TOut>(string expressionStr)
         {

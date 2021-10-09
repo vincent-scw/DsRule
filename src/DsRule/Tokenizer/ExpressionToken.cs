@@ -1,6 +1,6 @@
 ﻿using Superpower.Display;
 
-namespace DsLinq.Tokenizer
+namespace DsRule.Tokenizer
 {
     enum ExpressionToken
     {

@@ -3,7 +3,7 @@ using Superpower.Model;
 using Superpower.Parsers;
 using System.Linq;
 
-namespace DsLinq.Tokenizer
+namespace DsRule.Tokenizer
 {
     static class ExpressionTextParsers
     {

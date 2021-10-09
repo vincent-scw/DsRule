@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DsLinq.Ast
+namespace DsRule.Ast
 {
     internal enum Operators
     {

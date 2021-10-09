@@ -1,11 +1,11 @@
-﻿using DsLinq.Ast;
-using DsLinq.Tokenizer;
+﻿using DsRule.Ast;
+using DsRule.Tokenizer;
 using Superpower;
 using Superpower.Parsers;
 using System;
 using System.Linq.Expressions;
 
-namespace DsLinq
+namespace DsRule
 {
     internal class LinqParser
     {

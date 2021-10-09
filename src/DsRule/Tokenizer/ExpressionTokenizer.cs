@@ -2,7 +2,7 @@
 using Superpower.Model;
 using System.Collections.Generic;
 
-namespace DsLinq.Tokenizer
+namespace DsRule.Tokenizer
 {
     internal class ExpressionTokenizer : Tokenizer<ExpressionToken>
     {

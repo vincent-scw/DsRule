@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DsLinq.Tokenizer
+namespace DsRule.Tokenizer
 {
     struct ExpressionKeyword
     {
