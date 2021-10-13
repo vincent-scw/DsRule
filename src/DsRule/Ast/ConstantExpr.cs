@@ -12,14 +12,16 @@ namespace DsRule.Ast
 {
     class ConstantExpr : DslExpression
     {
+        public object Value { get; }
+
         public ConstantExpr(object obj)
         {
-
+            Value = obj;
         }
 
         public override Expression BuildLinqExpression()
         {
-            throw new NotImplementedException();
+            return Expression.Constant(Value);
         }
     }
 }

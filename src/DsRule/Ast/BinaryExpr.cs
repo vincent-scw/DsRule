@@ -25,7 +25,23 @@ namespace DsRule.Ast
 
         public override Expression BuildLinqExpression()
         {
-            throw new NotImplementedException();
+            var exprType = ToLinqExpressionType(Op);
+            if (exprType == null)
+            {
+                throw new NotSupportedException();
+            }
+
+            return Expression.MakeBinary(exprType.Value, Left.BuildLinqExpression(), Right.BuildLinqExpression());
+        }
+
+        private ExpressionType? ToLinqExpressionType(Operators op)
+        {
+            switch (op)
+            {
+                default:
+                    Enum.TryParse(typeof(ExpressionType), op.ToString(), true, out var exprType);
+                    return (ExpressionType?)exprType;
+            }
         }
     }
 }
