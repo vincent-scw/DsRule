@@ -31,16 +31,29 @@ namespace DsRule.Ast
                 throw new NotSupportedException();
             }
 
-            return Expression.MakeBinary(exprType.Value, Left.BuildLinqExpression(), Right.BuildLinqExpression());
+            var leftExpr = Left.BuildLinqExpression();
+            var rightExpr = Right.BuildLinqExpression();
+
+            if (leftExpr.Type != rightExpr.Type)
+            {
+                var methodInfo = typeof(Convert).GetMethod("ChangeType", new Type[] { typeof(object), typeof(Type) });
+                rightExpr = Expression.Convert(Expression.Call(methodInfo, rightExpr, Expression.Constant(leftExpr.Type)), leftExpr.Type);
+            }
+
+            return Expression.MakeBinary(exprType.Value, leftExpr, rightExpr);
         }
 
-        private ExpressionType? ToLinqExpressionType(Operators op)
+        private static ExpressionType? ToLinqExpressionType(Operators op)
         {
             switch (op)
             {
                 default:
-                    Enum.TryParse(typeof(ExpressionType), op.ToString(), true, out var exprType);
-                    return (ExpressionType?)exprType;
+                    if (Enum.TryParse(typeof(ExpressionType), op.ToString(), true, out var exprType))
+                    {
+                        return (ExpressionType?)exprType;
+                    }
+
+                    return null;
             }
         }
     }
