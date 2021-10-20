@@ -1,5 +1,4 @@
-﻿using DsRule.Ast;
-using DsRule.Tokenizer;
+﻿using DsRule.Tokenizer;
 using Superpower;
 using Superpower.Parsers;
 using System;
@@ -9,5 +8,9 @@ namespace DsRule
 {
     internal class LinqParser
     {
+        //public LambdaExpression BuildLambda()
+        //{
+        //    var lambda = Expression.Lambda()
+        //}
     }
 }

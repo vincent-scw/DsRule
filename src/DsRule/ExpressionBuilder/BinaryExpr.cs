@@ -2,13 +2,9 @@
 // Licensed under the MIT License.
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace DsRule.Ast
+namespace DsRule.ExpressionBuilder
 {
     class BinaryExpr : DslExpression
     {
@@ -34,10 +30,10 @@ namespace DsRule.Ast
             var leftExpr = Left.BuildLinqExpression();
             var rightExpr = Right.BuildLinqExpression();
 
+            // If Type does not match, try convert type
             if (leftExpr.Type != rightExpr.Type)
             {
-                var methodInfo = typeof(Convert).GetMethod("ChangeType", new Type[] { typeof(object), typeof(Type) });
-                rightExpr = Expression.Convert(Expression.Call(methodInfo, rightExpr, Expression.Constant(leftExpr.Type)), leftExpr.Type);
+                rightExpr = ExpressionUtils.ChangeType(leftExpr, rightExpr);
             }
 
             return Expression.MakeBinary(exprType.Value, leftExpr, rightExpr);
