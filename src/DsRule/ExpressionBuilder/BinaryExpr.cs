@@ -1,12 +1,14 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using DsRule.ExpressionBuilder.BinaryBuilders;
+using DsRule.ExpressionBuilder.BinaryFormatters;
 using System;
 using System.Linq.Expressions;
 
 namespace DsRule.ExpressionBuilder
 {
-    class BinaryExpr : DslExpression
+    internal class BinaryExpr : DslExpression
     {
         public DslExpression Left { get; }
         public DslExpression Right { get; }
@@ -21,36 +23,30 @@ namespace DsRule.ExpressionBuilder
 
         public override Expression BuildLinqExpression()
         {
-            var exprType = ToLinqExpressionType(Op);
-            if (exprType == null)
-            {
-                throw new NotSupportedException();
-            }
-
             var leftExpr = Left.BuildLinqExpression();
             var rightExpr = Right.BuildLinqExpression();
 
-            // If Type does not match, try convert type
-            if (leftExpr.Type != rightExpr.Type)
+            var handlers = BinaryHandlerCollection.GetHandlers();
+            foreach (var binaryHandler in handlers)
             {
-                rightExpr = ExpressionUtils.ChangeType(leftExpr, rightExpr);
+                if (binaryHandler.CanFormat(Op, leftExpr, rightExpr))
+                {
+                    binaryHandler.Format(Op, ref leftExpr, ref rightExpr);
+                }
             }
 
-            return Expression.MakeBinary(exprType.Value, leftExpr, rightExpr);
-        }
-
-        private static ExpressionType? ToLinqExpressionType(Operators op)
-        {
-            switch (op)
+            var builders = BinaryBuilderCollection.GetBuilders();
+            foreach (var binaryBuilder in builders)
             {
-                default:
-                    if (Enum.TryParse(typeof(ExpressionType), op.ToString(), true, out var exprType))
-                    {
-                        return (ExpressionType?)exprType;
-                    }
-
-                    return null;
+                if (binaryBuilder.CanBuild(Op, leftExpr, rightExpr))
+                {
+                    var expr = binaryBuilder.Build(Op, leftExpr, rightExpr);
+                    if (expr != null)
+                        return expr;
+                }
             }
+
+            throw new NotSupportedException("Cannot build binary expression.");
         }
     }
 }

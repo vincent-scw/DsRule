@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 
 namespace DsRule.ExpressionBuilder
 {
-    class ConstantExpr : DslExpression
+    internal class ConstantExpr : DslExpression
     {
         public object Value { get; }
 

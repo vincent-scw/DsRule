@@ -3,7 +3,7 @@
 
 namespace DsRule.ExpressionBuilder
 {
-    internal enum Operators
+    public enum Operators
     {
         /// <summary>
         /// +
