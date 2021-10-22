@@ -19,4 +19,4 @@
 	// 'result' is true
 	```
 
-For more examples, please refer to 
+For more examples, please refer to [Examples](https://github.com/vincent-scw/DsRule/blob/main/test/DsRule.UnitTest/DsRuleExecutorTests.cs)
