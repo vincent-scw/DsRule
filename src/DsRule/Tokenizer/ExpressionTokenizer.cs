@@ -29,17 +29,17 @@ namespace DsRule.Tokenizer
 
         private readonly static ExpressionKeyword[] Keywords =
         {
-            new ("and", ExpressionToken.And),
-            new ("in", ExpressionToken.In),
-            new ("is", ExpressionToken.Is),
-            new ("like", ExpressionToken.Like),
-            new ("not", ExpressionToken.Not),
-            new ("or", ExpressionToken.Or),
-            new ("true", ExpressionToken.True),
-            new ("false", ExpressionToken.False),
-            new ("null", ExpressionToken.Null),
-            new ("now", ExpressionToken.Now),
-            new ("today", ExpressionToken.Today)
+            new ExpressionKeyword("and", ExpressionToken.And),
+            new ExpressionKeyword("in", ExpressionToken.In),
+            new ExpressionKeyword("is", ExpressionToken.Is),
+            new ExpressionKeyword("like", ExpressionToken.Like),
+            new ExpressionKeyword("not", ExpressionToken.Not),
+            new ExpressionKeyword("or", ExpressionToken.Or),
+            new ExpressionKeyword("true", ExpressionToken.True),
+            new ExpressionKeyword("false", ExpressionToken.False),
+            new ExpressionKeyword("null", ExpressionToken.Null),
+            new ExpressionKeyword("now", ExpressionToken.Now),
+            new ExpressionKeyword("today", ExpressionToken.Today)
         };
 
         static ExpressionTokenizer()

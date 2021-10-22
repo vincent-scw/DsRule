@@ -29,7 +29,7 @@ namespace DsRule.ExpressionBuilder.BinaryBuilders
             switch (op)
             {
                 default:
-                    if (Enum.TryParse(typeof(ExpressionType), op.ToString(), true, out var exprType))
+                    if (Enum.TryParse<ExpressionType>(op.ToString(), out var exprType))
                     {
                         return (ExpressionType?)exprType;
                     }
