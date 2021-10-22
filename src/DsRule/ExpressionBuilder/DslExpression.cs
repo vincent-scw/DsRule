@@ -13,9 +13,9 @@ namespace DsRule.ExpressionBuilder
             return new ConstantExpr(obj);
         }
 
-        public static DslExpression Negate(DslExpression expr)
+        public static DslExpression Negate(DslExpression expr, Operators op)
         {
-            return new NegateExpr(expr);
+            return new NegateExpr(expr, op);
         }
 
         public static DslExpression Binary(Operators op, DslExpression lExpr, DslExpression rExpr)

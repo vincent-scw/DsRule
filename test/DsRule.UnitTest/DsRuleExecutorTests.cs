@@ -15,6 +15,7 @@ namespace DsRule.UnitTest
         [InlineData("1.1 * 2", 2.2)]
         [InlineData("9.3 / 3", 3.1)]
         [InlineData("-10.3 + 10 - 0.33", -0.63)]
+        [InlineData("10 * (1 + 1)", 20)]
         internal void CalculationTest(string input, double output)
         {
             var result = DsRuleExecutor.Execute<double>(input);
@@ -26,7 +27,7 @@ namespace DsRule.UnitTest
         [InlineData("FirstName = 'Vincent' AND Valid = true", true)]
         [InlineData("Manager <> null", true)]
         [InlineData("Manager != null", true)]
-        //[InlineData("not(Manager = null)", true)]
+        [InlineData("not(Manager = null)", true)]
         [InlineData("Manager.FirstName = 'hehe'", false)]
         [InlineData("Manager.FirstName = 'Mgr'", true)]
         [InlineData("Age > 30 OR Age = 30", true)]
