@@ -85,7 +85,12 @@ namespace DsRule
         public TokenListParser<ExpressionToken, DslExpression> Disjunction { get; set; }
         public TokenListParser<ExpressionToken, DslExpression> Expr { get; set; }
 
-        public void BuildTokenList()
+        public ExpressionTokenListParser()
+        {
+            BuildTokenList();
+        }
+
+        private void BuildTokenList()
         {
             Literal =
                 ValueContent
@@ -97,19 +102,19 @@ namespace DsRule
                     .Or(Null)
                     .Named("literal");
 
-            Item = Literal;//.Or(PropertyPath); //.Or(Function).Or(ArrayLiteral);
+            Item = Literal.OrSkipNull(PropertyPath); //.Or(Function).Or(ArrayLiteral);
 
             Factor =
                 (from lparen in Token.EqualTo(ExpressionToken.LParen)
                     from expr in Parse.Ref(() => Expr)
                     from rparen in Token.EqualTo(ExpressionToken.RParen)
                     select expr)
-                .Or(Item);
+                .OrSkipNull(Item);
 
             Operand =
                 (from op in Negate.Or(Not)
                     from factor in Factor
-                    select DslExpression.Negate(factor)).Or(Factor).Named("expression");
+                    select DslExpression.Negate(factor)).OrSkipNull(Factor).Named("expression");
 
             InnerTerm =
                 Parse.Chain(Power, Operand, DslExpression.Binary);

@@ -1,4 +1,5 @@
-﻿using System.Linq.Expressions;
+﻿using System;
+using System.Linq.Expressions;
 
 namespace DsRule.ExpressionBuilder
 {
@@ -20,6 +21,16 @@ namespace DsRule.ExpressionBuilder
         public static DslExpression Binary(Operators op, DslExpression lExpr, DslExpression rExpr)
         {
             return new BinaryExpr(op, lExpr, rExpr);
+        }
+
+        public static DslExpression Property(DslExpression expression, string propertyName)
+        {
+            return new PropertyExpr(expression, propertyName);
+        }
+
+        public static DslExpression Parameter(Type type, string name)
+        {
+            return new ParameterExpr(type, name);
         }
     }
 }
