@@ -2,7 +2,9 @@
 **DsRule** stands for Domain-specific Rule. It used to parse Domain-specific language to Linq Expression.
 
 ## Install
-
+```
+Install-Package DsRule
+```
 
 ## Example
 * Model
