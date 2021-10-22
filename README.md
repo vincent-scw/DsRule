@@ -1,7 +1,8 @@
-[![Build Status](https://travis-ci.org/vincent-scw/DsRule.svg?branch=main)](https://travis-ci.org/vincent-scw/DsRule)
-
 # DsRule
 **DsRule** stands for Domain-specific Rule. It used to parse Domain-specific language to Linq Expression.
+
+## Install
+
 
 ## Example
 * Model
