@@ -32,5 +32,10 @@ namespace DsRule.ExpressionBuilder
         {
             return new ParameterExpr(pe);
         }
+
+        public static DslExpression DateTime(DateTimeKind kind)
+        {
+            return new DateTimeExpr(kind);
+        }
     }
 }

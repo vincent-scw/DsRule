@@ -37,6 +37,8 @@ namespace DsRule.UnitTest
         [InlineData("OnboardDate > '2021-01-01'", true)]
         [InlineData("Gender = 'male'", true)]
         [InlineData("Gender = '0'", true)]
+        [InlineData("OnboardDate <= now", true)]
+        [InlineData("now >= today", true)]
         internal void EmployeeModelTest(string input, bool output)
         {
             var model = new Employee() 

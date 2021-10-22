@@ -103,6 +103,12 @@ namespace DsRule.Tokenizer
         False,
 
         [Token(Category = "keyword", Example = "null")]
-        Null
+        Null,
+
+        [Token(Category = "keyword", Example = "now")]
+        Now,
+
+        [Token(Category = "keyword", Example = "today")]
+        Today
     }
 }

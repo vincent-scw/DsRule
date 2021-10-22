@@ -5,6 +5,7 @@ using Superpower.Parsers;
 using System;
 using System.Linq;
 using System.Linq.Expressions;
+using DateTimeKind = DsRule.ExpressionBuilder.DateTimeKind;
 
 namespace DsRule
 {
@@ -44,6 +45,12 @@ namespace DsRule
             Token.EqualTo(ExpressionToken.Not).Value(Operators.Not);
         public readonly static TokenListParser<ExpressionToken, Operators> Is =
             Token.EqualTo(ExpressionToken.Is).Value(Operators.Is);
+
+        public readonly static TokenListParser<ExpressionToken, DslExpression> Now =
+            Token.EqualTo(ExpressionToken.Now).Value(DslExpression.DateTime(DateTimeKind.Now));
+
+        public readonly static TokenListParser<ExpressionToken, DslExpression> Today =
+            Token.EqualTo(ExpressionToken.Today).Value(DslExpression.DateTime(DateTimeKind.Today));
 
         public readonly static TokenListParser<ExpressionToken, DslExpression> True =
             Token.EqualTo(ExpressionToken.True).Value(DslExpression.Constant(true));
@@ -97,7 +104,7 @@ namespace DsRule
                     .Or(Null)
                     .Named("literal");
 
-            Item = Literal.OrSkipNull(PropertyPath); //.Or(Function).Or(ArrayLiteral);
+            Item = Literal.Or(Now).Or(Today).OrSkipNull(PropertyPath); //.Or(Function).Or(ArrayLiteral);
 
             Factor =
                 (from lparen in Token.EqualTo(ExpressionToken.LParen)
