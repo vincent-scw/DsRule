@@ -25,6 +25,7 @@ namespace DsRule.UnitTest
         [InlineData("FirstName = 'Vincent'", true)]
         [InlineData("FirstName = 'Vincent' AND Valid = true", true)]
         [InlineData("Manager <> null", true)]
+        [InlineData("Manager != null", true)]
         //[InlineData("not(Manager = null)", true)]
         [InlineData("Manager.FirstName = 'hehe'", false)]
         [InlineData("Manager.FirstName = 'Mgr'", true)]
@@ -32,7 +33,9 @@ namespace DsRule.UnitTest
         [InlineData("Age > 30 Or Age < 20", false)]
         [InlineData("Age + 10 = 40", true)]
         [InlineData("FirstName + '.' + LastName = 'Vincent.Any'", true)]
-        //[InlineData("Gender = 'Male'", true)]
+        [InlineData("OnboardDate > '2021-01-01'", true)]
+        [InlineData("Gender = 'male'", true)]
+        [InlineData("Gender = '0'", true)]
         internal void EmployeeModelTest(string input, bool output)
         {
             var model = new Employee() 
@@ -64,7 +67,7 @@ namespace DsRule.UnitTest
             public Gender Gender { get; set; }
             public Employee Manager { get; set; }
             public bool Valid { get; set; }
-            public DateTime OnboardDate { get; set; }
+            public DateTime? OnboardDate { get; set; }
         }
 
         enum Gender

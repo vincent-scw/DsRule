@@ -109,7 +109,7 @@ namespace DsRule
             Operand =
                 (from op in Negate.Or(Not)
                     from factor in Factor
-                    select DslExpression.Negate(factor)).OrSkipNull(Factor).Named("expression");
+                    select DslExpression.Negate(factor)).OrSkipNull(Factor).Named("operand");
 
             InnerTerm =
                 Parse.Chain(Power, Operand, DslExpression.Binary);
