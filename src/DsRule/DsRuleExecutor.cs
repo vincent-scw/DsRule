@@ -12,14 +12,11 @@ namespace DsRule
             return (TOut)compiled.DynamicInvoke();
         }
 
-        public static bool Execute<TIn1, TIn2>(TIn1 entity1, TIn2 entity2, string ruleExpression)
+        public static TOut Execute<TIn, TOut>(TIn entity, string ruleExpression)
         {
-            return false;
-        }
-
-        public static bool Execute<TIn1, TIn2, TIn3>(TIn1 entity1, TIn2 entity2, TIn3 entity3, string ruleExpression)
-        {
-            return false;
+            var expr = LinqParser.Parse<TIn, TOut>(ruleExpression);
+            var compiled = expr.Compile();
+            return (TOut)compiled.DynamicInvoke(entity);
         }
     }
 }

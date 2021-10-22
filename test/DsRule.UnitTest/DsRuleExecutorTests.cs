@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using System;
 using Xunit;
 
 namespace DsRule.UnitTest
@@ -13,12 +14,63 @@ namespace DsRule.UnitTest
         [InlineData("1.1 - 0.9", 0.2)]
         [InlineData("1.1 * 2", 2.2)]
         [InlineData("9.3 / 3", 3.1)]
-        public void CalculationTest(string input, double output)
+        [InlineData("-10.3 + 10 - 0.33", -0.63)]
+        internal void CalculationTest(string input, double output)
         {
             var result = DsRuleExecutor.Execute<double>(input);
             Assert.Equal(output, result);
         }
 
-        
+        [Theory]
+        [InlineData("FirstName = 'Vincent'", true)]
+        [InlineData("FirstName = 'Vincent' AND Valid = true", true)]
+        [InlineData("Manager <> null", true)]
+        //[InlineData("not(Manager = null)", true)]
+        [InlineData("Manager.FirstName = 'hehe'", false)]
+        [InlineData("Manager.FirstName = 'Mgr'", true)]
+        [InlineData("Age > 30 OR Age = 30", true)]
+        [InlineData("Age > 30 Or Age < 20", false)]
+        [InlineData("Age + 10 = 40", true)]
+        [InlineData("FirstName + '.' + LastName = 'Vincent.Any'", true)]
+        //[InlineData("Gender = 'Male'", true)]
+        internal void EmployeeModelTest(string input, bool output)
+        {
+            var model = new Employee() 
+            {
+                FirstName = "Vincent",
+                LastName = "Any",
+                Age = 30,
+                Gender = Gender.Male,
+                Manager = new Employee 
+                {
+                    FirstName = "Mgr",
+                    LastName = "Abc",
+                    Gender = Gender.Female
+                },
+                Valid = true,
+                OnboardDate = new DateTime(2021, 9, 30)
+            };
+
+            var result = DsRuleExecutor.Execute<Employee, bool>(model, input);
+            Assert.Equal(output, result);
+        }
+
+
+        class Employee
+        {
+            public string FirstName { get; set; }
+            public string LastName { get; set; }
+            public int Age { get; set; }
+            public Gender Gender { get; set; }
+            public Employee Manager { get; set; }
+            public bool Valid { get; set; }
+            public DateTime OnboardDate { get; set; }
+        }
+
+        enum Gender
+        {
+            Male,
+            Female
+        }
     }
 }

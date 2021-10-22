@@ -23,14 +23,14 @@ namespace DsRule.ExpressionBuilder
             return new BinaryExpr(op, lExpr, rExpr);
         }
 
-        public static DslExpression Property(DslExpression expression, string propertyName)
+        public static DslExpression Property(Expression expression, string propertyName)
         {
             return new PropertyExpr(expression, propertyName);
         }
 
-        public static DslExpression Parameter(Type type, string name)
+        public static DslExpression Parameter(ParameterExpression pe)
         {
-            return new ParameterExpr(type, name);
+            return new ParameterExpr(pe);
         }
     }
 }

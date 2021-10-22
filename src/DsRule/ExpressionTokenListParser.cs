@@ -85,12 +85,7 @@ namespace DsRule
         public TokenListParser<ExpressionToken, DslExpression> Disjunction { get; set; }
         public TokenListParser<ExpressionToken, DslExpression> Expr { get; set; }
 
-        public ExpressionTokenListParser()
-        {
-            BuildTokenList();
-        }
-
-        private void BuildTokenList()
+        private void RebuildTokenList()
         {
             Literal =
                 ValueContent
@@ -134,6 +129,8 @@ namespace DsRule
 
         public TokenListParser<ExpressionToken, Expression> BuildExpression(Func<DslExpression, Expression> func)
         {
+            RebuildTokenList();
+
             return Expr.AtEnd().Select(func);
         }
     }

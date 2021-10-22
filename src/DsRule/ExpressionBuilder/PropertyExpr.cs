@@ -7,10 +7,10 @@ namespace DsRule.ExpressionBuilder
 {
     internal class PropertyExpr : DslExpression
     {
-        public DslExpression Expr { get; }
+        public Expression Expr { get; }
         public string PropertyName { get; }
 
-        public PropertyExpr(DslExpression expression, string propertyName)
+        public PropertyExpr(Expression expression, string propertyName)
         {
             Expr = expression;
             PropertyName = propertyName;
@@ -18,7 +18,7 @@ namespace DsRule.ExpressionBuilder
 
         public override Expression BuildLinqExpression()
         {
-            return Expression.Property(Expr.BuildLinqExpression(), PropertyName);
+            return Expression.Property(Expr, PropertyName);
         }
     }
 }

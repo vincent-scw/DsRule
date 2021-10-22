@@ -1,25 +1,22 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using System;
 using System.Linq.Expressions;
 
 namespace DsRule.ExpressionBuilder
 {
     internal class ParameterExpr : DslExpression
     {
-        public Type Type { get; }
-        public string Name { get; }
+        public ParameterExpression Expr { get; }
 
-        public ParameterExpr(Type type, string name)
+        public ParameterExpr(ParameterExpression pe)
         {
-            Type = type;
-            Name = name;
+            Expr = pe;
         }
 
         public override Expression BuildLinqExpression()
         {
-            return Expression.Parameter(Type, Name);
+            return Expr;
         }
     }
 }

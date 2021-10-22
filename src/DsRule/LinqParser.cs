@@ -43,17 +43,19 @@ namespace DsRule
         public static bool TryParse<TIn, TOut>(string expr, out LambdaExpression root, out string error)
         {
             // Create Parameter for TIn
-            var pe = DslExpression.Parameter(typeof(TIn), "p");
+            var pe = DslExpression.Parameter(Expression.Parameter(typeof(TIn), "p"));
 
             var tokenParser = new ExpressionTokenListParser();
 
             tokenParser.PropertyPathStep = Token.EqualTo(ExpressionToken.Period)
                 .IgnoreThen(Token.EqualTo(ExpressionToken.Identifier))
                 .Then(n => Superpower.Parse.Return<ExpressionToken, Func<DslExpression, DslExpression>>(r =>
-                    DslExpression.Property(r, n.ToStringValue())));
-            tokenParser. IdentifierProperty =
-                    Token.EqualTo(ExpressionToken.BuiltInIdentifier).Select(b => DslExpression.Property(pe, b.ToStringValue().Substring(1)))
-                        .Or(Token.EqualTo(ExpressionToken.Identifier).Select(t => DslExpression.Property(pe, t.ToStringValue())));
+                    DslExpression.Property(r.BuildLinqExpression(), n.ToStringValue())));
+            tokenParser.IdentifierProperty =
+                    Token.EqualTo(ExpressionToken.BuiltInIdentifier).Select(b => 
+                            DslExpression.Property(((ParameterExpr)pe).Expr, b.ToStringValue().Substring(1)))
+                        .Or(Token.EqualTo(ExpressionToken.Identifier).Select(t => 
+                            DslExpression.Property(((ParameterExpr)pe).Expr, t.ToStringValue())));
             tokenParser.PropertyPath =
                 (from notfunction in Superpower.Parse.Not(Token.EqualTo(ExpressionToken.Identifier)
                         .IgnoreThen(Token.EqualTo(ExpressionToken.LParen)))
@@ -62,7 +64,9 @@ namespace DsRule
                     select path.Aggregate(id, (o, f) => f(o))).Named("property");
 
             var parser = tokenParser.BuildExpression(body =>
-                Expression.Lambda<Func<TIn, TOut>>(Expression.Convert(body.BuildLinqExpression(), typeof(TOut))));
+                Expression.Lambda<Func<TIn, TOut>>(
+                    Expression.Convert(body.BuildLinqExpression(), typeof(TOut)),
+                    (ParameterExpression)pe.BuildLinqExpression()));
             return TryParse(expr, parser, out root, out error);
         }
 
