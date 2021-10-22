@@ -10,8 +10,8 @@
 	var model = new Employee { FirstName = "Vincent", LastName = "Any", Age = 30 };
 	```
 * Domain-specific Expression
-	```
-	FirstName = 'Vincent' AND Age > 25
+	```csharp
+	var dsExpr = "FirstName = 'Vincent' AND Age > 25";
 	```
 * Execution Result
 	```csharp
