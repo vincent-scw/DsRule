@@ -24,9 +24,9 @@ namespace DsRule
         public readonly static TokenListParser<ExpressionToken, Operators> Power =
             Token.EqualTo(ExpressionToken.Caret) .Value(Operators.Power);
         public readonly static TokenListParser<ExpressionToken, Operators> And =
-            Token.EqualTo(ExpressionToken.And).Value(Operators.And);
+            Token.EqualTo(ExpressionToken.And).Value(Operators.AndAlso);
         public readonly static TokenListParser<ExpressionToken, Operators> Or =
-            Token.EqualTo(ExpressionToken.Or) .Value(Operators.Or);
+            Token.EqualTo(ExpressionToken.Or) .Value(Operators.OrElse);
         public readonly static TokenListParser<ExpressionToken, Operators> LessThanOrEqual =
             Token.EqualTo(ExpressionToken.LessThanOrEqual) .Value(Operators.LessThanOrEqual);
         public readonly static TokenListParser<ExpressionToken, Operators> LessThan =

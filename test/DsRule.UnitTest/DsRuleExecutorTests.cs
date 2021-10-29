@@ -39,6 +39,7 @@ namespace DsRule.UnitTest
         [InlineData("Gender = '0'", true)]
         [InlineData("OnboardDate <= now", true)]
         [InlineData("now >= today", true)]
+        [InlineData("Manager.Manager <> null AND Manager.Manager.FirstName = 'Hello'", false)]
         internal void EmployeeModelTest(string input, bool output)
         {
             var model = new Employee() 

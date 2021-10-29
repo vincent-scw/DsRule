@@ -40,11 +40,11 @@ namespace DsRule.ExpressionBuilder
         /// <summary>
         /// 
         /// </summary>
-        And,
+        AndAlso,
         /// <summary>
         /// 
         /// </summary>
-        Or,
+        OrElse,
         /// <summary>
         /// 
         /// </summary>
