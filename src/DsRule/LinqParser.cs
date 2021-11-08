@@ -8,7 +8,7 @@ using System.Linq.Expressions;
 
 namespace DsRule
 {
-    internal class LinqParser
+    public class LinqParser
     {
         public static LambdaExpression Parse<TOut>(string expr)
         {

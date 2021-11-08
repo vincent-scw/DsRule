@@ -61,23 +61,5 @@ namespace DsRule.UnitTest
             var result = DsRuleExecutor.Execute<Employee, bool>(model, input);
             Assert.Equal(output, result);
         }
-
-
-        class Employee
-        {
-            public string FirstName { get; set; }
-            public string LastName { get; set; }
-            public int Age { get; set; }
-            public Gender Gender { get; set; }
-            public Employee Manager { get; set; }
-            public bool Valid { get; set; }
-            public DateTime? OnboardDate { get; set; }
-        }
-
-        enum Gender
-        {
-            Male,
-            Female
-        }
     }
 }
