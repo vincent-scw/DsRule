@@ -24,6 +24,12 @@ var result = DsRuleExecutor.Execute<Employee, bool>(model, dsExpr);
 // 'result' is true
 ```
 
+You can also use expresion in Where caluse
+```csharp
+var employees = new List<Employee> { ... }; // A list of employees
+var filtered = employees.Where("FirstName = 'Vincent' AND Age > 25");
+```
+
 For more examples, please refer to [Examples](https://github.com/vincent-scw/DsRule/blob/main/test/DsRule.UnitTest/DsRuleExecutorTests.cs)
 
 ## Domain-specific language grammar
@@ -32,4 +38,5 @@ For more examples, please refer to [Examples](https://github.com/vincent-scw/DsR
 |Comparand|+, -, *, /||
 |Comparison|<, >, <=, >=, =, !=, <>| |
 |Keyword|not, and, or, true, false, null| |
+|Keyword|in| Used for Array |
 |Keyword|now, today| Will be parsed to DateTime.Now and DateTime.Today|
