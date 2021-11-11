@@ -6,7 +6,7 @@ DsRule is used to parse domain-specific expression (in string) to Linq Expressio
 
 ## Install
 ```
-Install-Package DsRule
+dotnet add package DsRule --version 0.6.0
 ```
 
 ## Usage
