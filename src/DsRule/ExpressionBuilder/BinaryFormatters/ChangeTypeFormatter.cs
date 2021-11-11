@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
@@ -15,8 +16,15 @@ namespace DsRule.ExpressionBuilder.BinaryFormatters
         private static readonly MethodInfo _enumParse =
             typeof(Enum).GetMethod("Parse", new Type[] {typeof(Type), typeof(string), typeof(bool)});
 
+        private static readonly Operators[] _excludeOperators = new[] {Operators.In};
+
         public bool CanFormat(Operators op, Expression lExpr, Expression rExpr)
         {
+            if (_excludeOperators.Contains(op))
+            {
+                return false;
+            }
+
             // When type does not match
             return lExpr.Type != rExpr.Type;
         }

@@ -73,5 +73,9 @@ namespace DsRule.ExpressionBuilder
         /// 
         /// </summary>
         Is,
+        /// <summary>
+        /// 
+        /// </summary>
+        In
     }
 }

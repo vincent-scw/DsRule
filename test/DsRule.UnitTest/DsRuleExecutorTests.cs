@@ -40,6 +40,11 @@ namespace DsRule.UnitTest
         [InlineData("OnboardDate <= now", true)]
         [InlineData("now >= today", true)]
         [InlineData("Manager.Manager <> null AND Manager.Manager.FirstName = 'Hello'", false)]
+        [InlineData("FirstName in ['Vincent', 'John']", true)]
+        [InlineData("FirstName in ['Mary', 'John']", false)]
+        [InlineData("FirstName in [LastName]", false)] // support variables 
+        [InlineData("LastName in [LastName]", true)]
+        [InlineData("LastName in [Manager.LastName]", true)]
         internal void EmployeeModelTest(string input, bool output)
         {
             var model = new Employee() 
@@ -51,7 +56,7 @@ namespace DsRule.UnitTest
                 Manager = new Employee 
                 {
                     FirstName = "Mgr",
-                    LastName = "Abc",
+                    LastName = "Any",
                     Gender = Gender.Female
                 },
                 Valid = true,

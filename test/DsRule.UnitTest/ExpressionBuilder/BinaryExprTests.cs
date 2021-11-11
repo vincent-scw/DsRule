@@ -2,6 +2,8 @@
 // Licensed under the MIT License.
 
 using DsRule.ExpressionBuilder;
+using DsRule.Tokenizer;
+using System.Linq;
 using System.Linq.Expressions;
 using Xunit;
 
@@ -34,9 +36,16 @@ namespace DsRule.UnitTest.ExpressionBuilder
             Assert.Equal(result, res);
         }
 
-        //[Theory]
-        //[InlineData()]
-        //internal void DateTimeTest(string )
+        [Theory]
+        [InlineData("a", new[] { "a", "b", "c" }, true)]
+        [InlineData("d", new[] { "a", "b", "c" }, false)]
+        internal void InTest(string pLeft, string[] pList, bool result)
+        {
+            var arrayExpr = new ArrayExpr(pList.Select(DslExpression.Constant).ToArray(), ExpressionToken.LBracket, ExpressionToken.RBracket);
+            var bx = new BinaryExpr(Operators.In, new ConstantExpr(pLeft), arrayExpr);
+            var res = GetResult(bx);
+            Assert.Equal(result, res);
+        }
 
         private object GetResult(DslExpression expr)
         {

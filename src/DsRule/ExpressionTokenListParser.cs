@@ -13,38 +13,57 @@ namespace DsRule
     {
         public readonly static TokenListParser<ExpressionToken, Operators> Add =
             Token.EqualTo(ExpressionToken.Plus).Value(Operators.Add);
+
         public readonly static TokenListParser<ExpressionToken, Operators> Subtract =
             Token.EqualTo(ExpressionToken.Minus).Value(Operators.Subtract);
+
         public readonly static TokenListParser<ExpressionToken, Operators> Multiply =
             Token.EqualTo(ExpressionToken.Asterisk).Value(Operators.Multiply);
+
         public readonly static TokenListParser<ExpressionToken, Operators> Divide =
             Token.EqualTo(ExpressionToken.ForwardSlash).Value(Operators.Divide);
+
         public readonly static TokenListParser<ExpressionToken, Operators> Modulo =
             Token.EqualTo(ExpressionToken.Percent).Value(Operators.Modulo);
+
         public readonly static TokenListParser<ExpressionToken, Operators> Power =
-            Token.EqualTo(ExpressionToken.Caret) .Value(Operators.Power);
+            Token.EqualTo(ExpressionToken.Caret).Value(Operators.Power);
+
         public readonly static TokenListParser<ExpressionToken, Operators> And =
             Token.EqualTo(ExpressionToken.And).Value(Operators.AndAlso);
+
         public readonly static TokenListParser<ExpressionToken, Operators> Or =
-            Token.EqualTo(ExpressionToken.Or) .Value(Operators.OrElse);
+            Token.EqualTo(ExpressionToken.Or).Value(Operators.OrElse);
+
         public readonly static TokenListParser<ExpressionToken, Operators> LessThanOrEqual =
-            Token.EqualTo(ExpressionToken.LessThanOrEqual) .Value(Operators.LessThanOrEqual);
+            Token.EqualTo(ExpressionToken.LessThanOrEqual).Value(Operators.LessThanOrEqual);
+
         public readonly static TokenListParser<ExpressionToken, Operators> LessThan =
             Token.EqualTo(ExpressionToken.LessThan).Value(Operators.LessThan);
+
         public readonly static TokenListParser<ExpressionToken, Operators> GreaterThan =
             Token.EqualTo(ExpressionToken.GreaterThan).Value(Operators.GreaterThan);
+
         public readonly static TokenListParser<ExpressionToken, Operators> GreaterThanOrEqual =
             Token.EqualTo(ExpressionToken.GreaterThanOrEqual).Value(Operators.GreaterThanOrEqual);
+
         public readonly static TokenListParser<ExpressionToken, Operators> Equal =
             Token.EqualTo(ExpressionToken.Equal).Value(Operators.Equal);
+
         public readonly static TokenListParser<ExpressionToken, Operators> NotEqual =
             Token.EqualTo(ExpressionToken.NotEqual).Value(Operators.NotEqual);
+
         public readonly static TokenListParser<ExpressionToken, Operators> Negate =
             Token.EqualTo(ExpressionToken.Minus).Value(Operators.Negate);
+
         public readonly static TokenListParser<ExpressionToken, Operators> Not =
             Token.EqualTo(ExpressionToken.Not).Value(Operators.Not);
+
         public readonly static TokenListParser<ExpressionToken, Operators> Is =
             Token.EqualTo(ExpressionToken.Is).Value(Operators.Is);
+
+        public readonly static TokenListParser<ExpressionToken, Operators> In =
+            Token.EqualTo(ExpressionToken.In).Value(Operators.In);
 
         public readonly static TokenListParser<ExpressionToken, DslExpression> Now =
             Token.EqualTo(ExpressionToken.Now).Value(DslExpression.DateTime(DateTimeKind.Now));
@@ -76,12 +95,12 @@ namespace DsRule
                 .Apply(ExpressionTextParsers.ValueContent)
                 .Select(DslExpression.Constant);
 
-
         public TokenListParser<ExpressionToken, Func<DslExpression, DslExpression>> PropertyPathStep { get; set; }
         public TokenListParser<ExpressionToken, DslExpression> IdentifierProperty { get; set; }
         public TokenListParser<ExpressionToken, DslExpression> PropertyPath { get; set; }
         public TokenListParser<ExpressionToken, DslExpression> Literal { get; set; }
         public TokenListParser<ExpressionToken, DslExpression> Item { get; set; }
+        public TokenListParser<ExpressionToken, DslExpression> ArrayLiteral { get; set; }
         public TokenListParser<ExpressionToken, DslExpression> Factor { get; set; }
         public TokenListParser<ExpressionToken, DslExpression> Operand { get; set; }
         public TokenListParser<ExpressionToken, DslExpression> InnerTerm { get; set; }
@@ -94,6 +113,12 @@ namespace DsRule
 
         private void RebuildTokenList()
         {
+            ArrayLiteral =
+                (from lBracket in Token.EqualTo(ExpressionToken.LBracket)
+                    from expr in Parse.Ref(() => Expr).ManyDelimitedBy(Token.EqualTo(ExpressionToken.Comma))
+                    from rBracket in Token.EqualTo(ExpressionToken.RBracket)
+                    select DslExpression.Array(expr, lBracket.Kind, rBracket.Kind)).Named("array");
+
             Literal =
                 ValueContent
                     //.Or(RegularExpression)
@@ -104,12 +129,12 @@ namespace DsRule
                     .Or(Null)
                     .Named("literal");
 
-            Item = Literal.Or(Now).Or(Today).OrSkipNull(PropertyPath); //.Or(Function).Or(ArrayLiteral);
+            Item = Literal.Or(Now).Or(Today).OrSkipNull(PropertyPath).OrSkipNull(ArrayLiteral); //.Or(Function)
 
             Factor =
-                (from lparen in Token.EqualTo(ExpressionToken.LParen)
+                (from lParen in Token.EqualTo(ExpressionToken.LParen)
                     from expr in Parse.Ref(() => Expr)
-                    from rparen in Token.EqualTo(ExpressionToken.RParen)
+                    from rParen in Token.EqualTo(ExpressionToken.RParen)
                     select expr)
                 .OrSkipNull(Item);
 
@@ -125,7 +150,7 @@ namespace DsRule
 
             Comparand = Parse.Chain(Add.Or(Subtract), Term, DslExpression.Binary);
 
-            Comparison = Parse.Chain(LessThan.Or(LessThanOrEqual).Or(GreaterThanOrEqual).Or(GreaterThan).Or(Equal).Or(NotEqual), Comparand, DslExpression.Binary);
+            Comparison = Parse.Chain(In.Or(LessThan.Or(LessThanOrEqual)).Or(GreaterThanOrEqual.Or(GreaterThan)).Or(Equal).Or(NotEqual), Comparand, DslExpression.Binary);
 
             Conjunction = Parse.Chain(And, Comparison, DslExpression.Binary);
 

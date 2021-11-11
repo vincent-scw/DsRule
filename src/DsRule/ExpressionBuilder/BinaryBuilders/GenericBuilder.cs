@@ -26,16 +26,12 @@ namespace DsRule.ExpressionBuilder.BinaryBuilders
 
         private static ExpressionType? ToLinqExpressionType(Operators op)
         {
-            switch (op)
+            if (Enum.TryParse<ExpressionType>(op.ToString(), out var exprType))
             {
-                default:
-                    if (Enum.TryParse<ExpressionType>(op.ToString(), out var exprType))
-                    {
-                        return (ExpressionType?)exprType;
-                    }
-
-                    return null;
+                return (ExpressionType?)exprType;
             }
+
+            return null;
         }
     }
 }

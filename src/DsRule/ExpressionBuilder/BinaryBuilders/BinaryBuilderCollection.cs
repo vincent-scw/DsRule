@@ -11,6 +11,7 @@ namespace DsRule.ExpressionBuilder.BinaryBuilders
         {
             return new List<IBinaryBuilder>() {
                 new StringConcatBuilder(),
+                new InBuilder(),
                 new GenericBuilder()
             };
         }

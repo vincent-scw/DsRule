@@ -1,10 +1,11 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using DsRule.ExpressionBuilder;
 using DsRule.Tokenizer;
 using Superpower;
 
-namespace DsRule.ExpressionBuilder
+namespace DsRule
 {
     internal static class TokenListParserExtensions
     {

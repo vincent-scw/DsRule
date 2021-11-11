@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DsRule.Tokenizer;
+using System;
 using System.Linq.Expressions;
 
 namespace DsRule.ExpressionBuilder
@@ -36,6 +37,11 @@ namespace DsRule.ExpressionBuilder
         public static DslExpression DateTime(DateTimeKind kind)
         {
             return new DateTimeExpr(kind);
+        }
+
+        public static DslExpression Array(DslExpression[] expressions, ExpressionToken lToken, ExpressionToken rToken)
+        {
+            return new ArrayExpr(expressions, lToken, rToken);
         }
     }
 }
